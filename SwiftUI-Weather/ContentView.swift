@@ -12,9 +12,10 @@ struct ContentView: View {
     
     @State private var isNight = false
     let days: [WeatherDay] = [WeatherDay(dayName: "TUE", temperature: 74, image: "cloud.sun.fill"), WeatherDay(dayName: "WED", temperature: 70, image: "sun.max.fill"),WeatherDay(dayName: "THU", temperature: 55, image: "wind"), WeatherDay(dayName: "FRI", temperature: 60, image: "sunset.fill"), WeatherDay(dayName: "WED", temperature: 55, image: "moon.stars.fill")]
+    
     var body: some View {
         ZStack {
-            BackgroundView(isNight: $isNight)
+            BackgroundView(isNight: isNight)
             VStack {
                 CityText(cityName: "Cupertino, CA")
                 
@@ -57,8 +58,10 @@ struct WeatherDayView: View {
                 .foregroundColor(.white)
                 .font(.system(size: 16, weight: .medium))
             Image(systemName: imageName)
+                .symbolRenderingMode(.palette)
                 .renderingMode(.original)
                 .resizable()
+                .foregroundStyle(.pink, .orange, .green)
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 40, height: 40)
             Text("\(temperature)°")
@@ -70,13 +73,13 @@ struct WeatherDayView: View {
 
 struct BackgroundView: View {
     
-    @Binding var isNight: Bool
+    var isNight: Bool
     
     var body: some View {
         LinearGradient(gradient: Gradient(colors: [isNight ? .black : .blue, isNight ? .gray : Color("lightBlue")]),
                        startPoint: .topLeading,
                        endPoint: .bottomTrailing)
-        .edgesIgnoringSafeArea(.all)
+        .ignoresSafeArea()
     }
 }
 
